@@ -28,6 +28,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,7 +110,7 @@ public class IncomeTaxMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+ this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //firbase auth
         firebaseAuth=FirebaseAuth.getInstance();
 
@@ -118,11 +119,17 @@ public class IncomeTaxMain extends AppCompatActivity {
         genderspinner = (Spinner) findViewById(R.id.genderspinnerid);
         incometaxedittext = (EditText)findViewById(R.id.incometaxedittextid);
         reliefedittext = (EditText)findViewById(R.id.incometaxreliefedittextid);
+        reliefedittext.setEnabled(false);
         surchargeedittext = (EditText)findViewById(R.id.surchargeedittextid123);
+        surchargeedittext.setEnabled(false);
         educationedittext = (EditText) findViewById(R.id.educationcessedittextid);
+        educationedittext.setEnabled(false);
         higherandseceducationcessedittext = (EditText)findViewById(R.id.higherandseceducessedittextid);
+        higherandseceducationcessedittext.setEnabled(false);
         totalreliefedittext = (EditText)findViewById(R.id.totalreliefedittextid);
+        totalreliefedittext.setEnabled(false);
         Button buttonCalculte = (Button)findViewById(R.id.buttoncalculate);
+        Button buttonhelp = (Button)findViewById(R.id.buttonhelp);
 
         ArrayList gender = new ArrayList();
         gender.add("Citizen");
@@ -228,7 +235,13 @@ public class IncomeTaxMain extends AppCompatActivity {
                 }
             }
         });
-
+        buttonhelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent helpref = new Intent(IncomeTaxMain.this,IncomeTaxHelpList.class);
+                startActivity(helpref);
+            }
+        });
     }
 
     ///Uploading contacts to azure

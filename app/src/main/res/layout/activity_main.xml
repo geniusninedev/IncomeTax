@@ -61,7 +61,6 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:id="@+id/incometaxTextviewid"
                     android:textColor="#000000"
                     android:textStyle="bold"
                     android:textSize="18sp" />
@@ -72,7 +71,6 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1.8"
                     android:layout_height="wrap_content"
-                    android:id="@+id/incometaxTextviewid"
                     android:textColor="#000000"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -138,6 +136,41 @@
 
             </LinearLayout>
             <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:text="Calculate"
+                    android:background="@drawable/sal"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttoncalculate"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewspace"
+                    android:text="  "
+                    />
+
+                <Button
+                    android:text="Help"
+                    android:background="@drawable/sal"
+                    android:backgroundTint="#2E86C1"
+                    android:textStyle="bold"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonhelp"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"/>
+            </LinearLayout>
+            <LinearLayout
                 android:orientation="vertical"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
@@ -159,6 +192,7 @@
                     android:maxLength="12"
                     android:layout_width="wrap_content"
                     android:gravity="center"
+                    android:editable="false"
                     android:layout_marginTop="5dp"
                     android:id="@+id/incometaxreliefedittextid"
                     android:layout_gravity="right"
@@ -168,7 +202,7 @@
                     android:textAlignment="center"
                     android:inputType="numberDecimal"
                     android:fadingEdgeLength="10dp"
-                    android:hint="tax.."
+                    android:backgroundTint="@android:color/darker_gray"
                     android:ems="10"> </EditText>
 
             </LinearLayout>
@@ -181,7 +215,6 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_marginTop="15dp"
-                    android:id="@+id/surchargetextviewid"
                     android:layout_gravity="center"
                     android:layout_weight="3"
                     android:typeface="serif"
@@ -196,6 +229,7 @@
                     android:layout_width="wrap_content"
                     android:gravity="center"
                     android:layout_marginTop="5dp"
+                    android:backgroundTint="@android:color/darker_gray"
                     android:background="@android:drawable/editbox_background"
                     android:id="@+id/surchargeedittextid123"
                     android:layout_gravity="right"
@@ -204,7 +238,6 @@
                     android:textAlignment="center"
                     android:inputType="numberDecimal"
                     android:fadingEdgeLength="10dp"
-                    android:hint="tax.."
                     android:ems="10"> </EditText>
 
             </LinearLayout>
@@ -228,11 +261,11 @@
                 <EditText
                     android:layout_height="35dp"
                     android:maxLength="12"
+                    android:backgroundTint="@android:color/darker_gray"
                     android:layout_width="wrap_content"
                     android:gravity="center"
                     android:background="@android:drawable/editbox_background"
                     android:layout_marginTop="5dp"
-                    android:hint="educationcess.."
                     android:id="@+id/educationcessedittextid"
                     android:layout_gravity="right"
                     android:layout_weight="2"
@@ -264,8 +297,8 @@
 
                 <EditText
                     android:layout_marginTop="5dp"
+                    android:backgroundTint="@android:color/darker_gray"
                     android:maxLength="12"
-                    android:hint="Higher EducationCess.."
                     android:layout_height="35dp"
                     android:layout_width="wrap_content"
                     android:gravity="center"
@@ -302,10 +335,10 @@
                 <EditText
                     android:layout_height="35dp"
                     android:maxLength="12"
+                    android:backgroundTint="@android:color/darker_gray"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:gravity="center"
-                    android:hint="Total relief..."
                     android:background="@android:drawable/editbox_background"
                     android:textColor="@android:color/black"
                     android:id="@+id/totalreliefedittextid"
@@ -317,20 +350,7 @@
 
             </LinearLayout>
 
-    </LinearLayout>
 
-            <Button
-            android:layout_height="50dp"
-            android:layout_width="match_parent"
-            android:id="@+id/buttoncalculate"
-           android:gravity="center"
-            android:text="Calculate"
-            android:background="#2E86C1"
-            android:visibility="visible"
-            android:longClickable="true"
-            android:fadingEdge="vertical"
-            android:onClick="CalCulateIncomeTax"
-            android:layout_marginTop="35dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -344,7 +364,7 @@
 
             </LinearLayout>
         </LinearLayout>
-
+</LinearLayout>
         </ScrollView>
 
 </FrameLayout>
