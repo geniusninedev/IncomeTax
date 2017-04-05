@@ -46,6 +46,9 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -53,8 +56,8 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.OkHttpClientFactory;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nineinfosys.android.incometax.DashBord.GetApp;
-import com.nineinfosys.android.incometax.Login.Contacts;
-import com.nineinfosys.android.incometax.Login.LoginActivity;
+import com.nineinfosys.android.incometax.Contacts.Contacts;
+import com.nineinfosys.android.incometax.LoginActivity.Login;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.net.MalformedURLException;
@@ -113,7 +116,10 @@ public class IncomeTaxMain extends AppCompatActivity {
  this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //firbase auth
         firebaseAuth=FirebaseAuth.getInstance();
-
+        MobileAds.initialize(IncomeTaxMain.this, getString(R.string.ads_app_id));
+        AdView mAdView = (AdView) this.findViewById(R.id.adViewIncomeTax);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         Configuration config = getResources().getConfiguration();
 
         genderspinner = (Spinner) findViewById(R.id.genderspinnerid);
@@ -336,7 +342,7 @@ public class IncomeTaxMain extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null){
                     Log.e("ForumMainActivity:", "User was null so directed to Login activity");
-                    Intent loginIntent = new Intent(IncomeTaxMain.this, LoginActivity.class);
+                    Intent loginIntent = new Intent(IncomeTaxMain.this, Login.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     finish();
                     startActivity(loginIntent);
