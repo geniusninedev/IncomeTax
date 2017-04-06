@@ -1,6 +1,8 @@
 <resources>
     <string name="app_id">IncomeTaxcalculator</string>
-    <string name="app_name">IncomeTaxcalculator</string>
+    <string name="app_name">Income Tax calculator</string>
+    <string name="app_name1">Login</string>
+    <string name="app_name2">Sign Up</string>
     <string name="title_activity_main2">Main2Activit</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
