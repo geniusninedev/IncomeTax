@@ -1,14 +1,17 @@
 package com.nineinfosys.android.incometax.DashBord;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,15 +47,17 @@ public class GetApp extends AppCompatActivity {
     private MobileServiceClient mobileServiceClientOrderApp;
     private MobileServiceTable<OrderApp> mobileServiceTableOrderApp;
     private FirebaseAuth firebaseAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_us);
-      /*  Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setTitle("Rate Us");*/
+        getSupportActionBar().setTitle("Get App");
 
 
         editTextdevice = (EditText)findViewById(R.id.editTextDevice);
@@ -66,7 +71,10 @@ public class GetApp extends AppCompatActivity {
         buttonGetQuote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String MobileNumberpattern = "[0-9]{10}";
+                //for hiding keyboard
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                String MobileNumberpattern = "[0-9]{12}";
                 String emailpattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 if(editTextdevice.getText().toString().trim().equals("")){
                     editTextdevice.setError("Device Required");
@@ -74,7 +82,7 @@ public class GetApp extends AppCompatActivity {
                     editTextOS.setError("OS Required");
                 }else if(editTextApplication.getText().toString().trim().equals("")){
                     editTextApplication.setError("Application Type Required");
-                 }else if(editTextIndustry.getText().toString().trim().equals("")){
+                }else if(editTextIndustry.getText().toString().trim().equals("")){
                     editTextIndustry.setError("Industry Required");
                 }else if(editTextAppDescription.getText().toString().trim().equals("")){
                     editTextAppDescription.setError("Short Description Required");
@@ -94,6 +102,9 @@ public class GetApp extends AppCompatActivity {
                 }
             }
         });
+        GetApp.this.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
 
 
@@ -102,7 +113,7 @@ public class GetApp extends AppCompatActivity {
         try {
             mobileServiceClientOrderApp = new MobileServiceClient(
                     getString(R.string.web_address),
-                  GetApp.this);
+                    GetApp.this);
             mobileServiceClientOrderApp.setAndroidHttpClientFactory(new OkHttpClientFactory() {
                 @Override
                 public OkHttpClient createOkHttpClient() {
@@ -160,12 +171,15 @@ public class GetApp extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
+            Intent intent=new Intent(GetApp.this,IncomeTaxMain.class);
+            finish();
+            startActivity(intent);
 
         }
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode){

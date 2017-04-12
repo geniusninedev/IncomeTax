@@ -8,6 +8,10 @@
             android:id="@+id/IncometaxCalcualtor"
 
             android:title="Income Tax Calculator" />
+        <item
+            android:id="@+id/rules"
+
+            android:title="Income Tax Rules" />
     </group>
 
     <item

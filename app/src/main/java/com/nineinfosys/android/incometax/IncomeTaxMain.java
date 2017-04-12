@@ -151,13 +151,21 @@ public class IncomeTaxMain extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mNavigationView.setItemIconTintList(null);
-
+        findViewById(R.id.fab_Forum).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  startActivity(new Intent(MainActivityDrawer.this, ForumActivity.class));
+            }
+        });
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
 
-
+                if (menuItem.getItemId() == R.id.rules) {
+                    Intent ruleref=new Intent(IncomeTaxMain.this,IncomeTaxHelpList.class);
+                    startActivity(ruleref);
+                }
                 //communicate
                 if (menuItem.getItemId() == R.id.Share) {
                     final String appPackageName = getPackageName();
@@ -183,7 +191,7 @@ public class IncomeTaxMain extends AppCompatActivity {
 
                     Intent intent=new Intent(IncomeTaxMain.this,GetApp.class);
                     startActivity(intent);
-
+                     finish();
 
                 }
 
@@ -206,9 +214,7 @@ public class IncomeTaxMain extends AppCompatActivity {
 
         });
 
-        /**
-         * Setup Drawer Toggle of the Toolbar
-         */
+
 
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -244,7 +250,7 @@ public class IncomeTaxMain extends AppCompatActivity {
         buttonhelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent helpref = new Intent(IncomeTaxMain.this,IncomeTaxHelpList.class);
+                Intent helpref = new Intent(IncomeTaxMain.this,IncomeTaxHelpweb.class);
                 startActivity(helpref);
             }
         });
@@ -387,7 +393,9 @@ public class IncomeTaxMain extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_logout){
-            closeapp();
+            FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
+
 
         }
 

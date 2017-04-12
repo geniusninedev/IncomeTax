@@ -76,6 +76,7 @@
                 android:value=".LoginActivity.Login"
                 />
         </activity>
+        <activity android:name=".IncomeTaxHelpweb"></activity>
     </application>
 
 </manifest>

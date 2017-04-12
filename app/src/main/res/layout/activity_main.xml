@@ -151,6 +151,24 @@
                 android:layout_height="wrap_content">
 
                 <Button
+                    android:text="Info"
+                    android:background="@drawable/sal"
+                    android:backgroundTint="#2E86C1"
+                    android:textStyle="bold"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonhelp"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewspace"
+                    android:text="  "
+                    />
+                <Button
                     android:text="Calculate"
                     android:background="@drawable/sal"
                     android:backgroundTint="@color/colorPrimary"
@@ -161,24 +179,7 @@
                     android:id="@+id/buttoncalculate"
                     android:layout_weight="1"
                     android:textColor="#ffffff" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textViewspace"
-                    android:text="  "
-                    />
 
-                <Button
-                    android:text="Help"
-                    android:background="@drawable/sal"
-                    android:backgroundTint="#2E86C1"
-                    android:textStyle="bold"
-                    android:layout_marginTop="2dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonhelp"
-                    android:layout_weight="1"
-                    android:textColor="#ffffff"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="vertical"
@@ -376,7 +377,13 @@
         </LinearLayout>
 </LinearLayout>
         </ScrollView>
-
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_Forum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"/>
 </FrameLayout>
 
 
