@@ -4,7 +4,7 @@
     android:id="@+id/activity_kids_test"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nineinfosys.android.incometax.IncomeTaxHelp">
+    tools:context="com.nineinfosys.android.incometax.AdvancedIncomeTaxCalculator.AdvancedTaxHelp">
 
     <WebView
         android:layout_width="match_parent"

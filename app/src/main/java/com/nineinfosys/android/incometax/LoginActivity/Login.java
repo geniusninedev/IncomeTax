@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,7 +43,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.nineinfosys.android.incometax.IncomeTaxMain;
+import com.nineinfosys.android.incometax.MainActivityDrawer;
 import com.nineinfosys.android.incometax.R;
 
 import org.json.JSONObject;
@@ -89,7 +88,7 @@ public class Login extends AppCompatActivity {
                 if (mUser != null) {
                     if (mUser.isEmailVerified()) {
                         Toast.makeText(Login.this, "You are in =)", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(), IncomeTaxMain.class);
+                        Intent intent = new Intent(getApplicationContext(), MainActivityDrawer.class);
                         startActivity(intent);
                         finish();
                     }
@@ -316,7 +315,7 @@ public class Login extends AppCompatActivity {
                             if (mUser.isEmailVerified()) {
                                 Toast.makeText(Login.this,"You are in =)",Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(getApplicationContext(), IncomeTaxMain.class);
+                                Intent intent = new Intent(getApplicationContext(), MainActivityDrawer.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -387,7 +386,7 @@ public class Login extends AppCompatActivity {
                             signOut();
                         }else{
                             CreateNewUserInDatabase();
-                            Intent intent = new Intent(getApplicationContext(), IncomeTaxMain.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivityDrawer.class);
                             startActivity(intent);
                             finish();
                         }
@@ -449,7 +448,7 @@ public class Login extends AppCompatActivity {
 
                         else if(user!=null){
                             CreateGoogleUserInDataBase();
-                            Intent intent = new Intent(getApplicationContext(), IncomeTaxMain.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivityDrawer.class);
                             startActivity(intent);
                             finish();
                         }

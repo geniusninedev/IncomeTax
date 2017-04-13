@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.OkHttpClientFactory;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.nineinfosys.android.incometax.IncomeTaxMain;
+import com.nineinfosys.android.incometax.MainActivityDrawer;
 import com.nineinfosys.android.incometax.R;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -171,7 +171,7 @@ public class GetApp extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            Intent intent=new Intent(GetApp.this,IncomeTaxMain.class);
+            Intent intent=new Intent(GetApp.this,MainActivityDrawer.class);
             finish();
             startActivity(intent);
 
@@ -184,7 +184,7 @@ public class GetApp extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode){
             case KeyEvent.KEYCODE_BACK:
-                Intent intent=new Intent(GetApp.this,IncomeTaxMain.class);
+                Intent intent=new Intent(GetApp.this,MainActivityDrawer.class);
                 finish();
                 startActivity(intent);
                 return true;

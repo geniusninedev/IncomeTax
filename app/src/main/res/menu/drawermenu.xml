@@ -8,10 +8,16 @@
             android:id="@+id/IncometaxCalcualtor"
 
             android:title="Income Tax Calculator" />
+
+        <item
+            android:id="@+id/advancedincome"
+
+            android:title="Advanced Tax Calculator" />
         <item
             android:id="@+id/rules"
 
             android:title="Income Tax Rules" />
+
     </group>
 
     <item
@@ -24,7 +30,7 @@
                    android:icon="@drawable/btn_share"
                    android:title="Share" />
                <item
-                   android:id="@+id/AppStore"
+                   android:id="@+id/MoreApps"
                    android:icon="@drawable/btn_app"
                    android:title="App Store" />
                <item

@@ -1,18 +1,25 @@
 package com.nineinfosys.android.incometax;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.nineinfosys.android.incometax.Incometax.IncomeTaxHelp;
+
 public class IncomeTaxHelpList extends AppCompatActivity {
 
     ListView Ruleslistview;
-    Toolbar toolbar;
     ArrayAdapter<String> adapter;
     String ruleslist[] = {"Rule - 1", "Rule - 2", "Rule - 2A", "Rule - 2B", "Rule - 2BA", "Rule - 2BB", "Rule - 2BBA", "Rule - 2BBB", "Rule - 2BC", "Rule - 2C",
             "Rule - 2CA", "Rule - 2D", "Rule - 2DA", "Rule - 2E", "Rule - 2F", "Rule - 3", "Rule - 3A","Rule - 4", "Rule - 5", "Rule - 5A",
@@ -62,13 +69,13 @@ public class IncomeTaxHelpList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_income_tax_help_list);
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_income_tax_help_list1);
+
+
         Ruleslistview = (ListView) findViewById(R.id.list);
-        adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.activity_income_tax_help_list, R.id.textView2, ruleslist);
+        adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.activity_income_tax_help_list1,R.id.textview2,  ruleslist);
         Ruleslistview.setAdapter(adapter);
-        Ruleslistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       Ruleslistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -79,5 +86,36 @@ public class IncomeTaxHelpList extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage("Are you sure you want to close Income Tax Ru?");
+                alertDialogBuilder.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+
+                                finish();
+
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+
+                    }
+                });
+
+                //Showing the alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
     }
