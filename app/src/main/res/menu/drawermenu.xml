@@ -5,15 +5,6 @@
     <group android:id="@+id/grp7" android:checkableBehavior="single" >
 
         <item
-            android:id="@+id/IncometaxCalcualtor"
-
-            android:title="Income Tax Calculator" />
-
-        <item
-            android:id="@+id/advancedincome"
-
-            android:title="Advanced Tax Calculator" />
-        <item
             android:id="@+id/rules"
 
             android:title="Income Tax Rules" />

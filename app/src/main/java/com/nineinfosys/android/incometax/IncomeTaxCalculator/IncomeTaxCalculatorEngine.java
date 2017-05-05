@@ -1,8 +1,8 @@
-package com.nineinfosys.android.incometax.Incometax;
+package com.nineinfosys.android.incometax.IncomeTaxCalculator;
 
 import com.github.mikephil.charting.charts.PieChart;
 
-public class IncomeTaxCalculator {
+public class IncomeTaxCalculatorEngine {
 	double a,b,c;
 	double income;
 	private PieChart mChart;
@@ -12,7 +12,7 @@ public class IncomeTaxCalculator {
 	final double BASE_VALUE_SUPER_SENIOR = 500000;
 	private IncomeTaxResults incomeTaxResults;
 	
-	public IncomeTaxCalculator(double income, String citizenStatus) {
+	public IncomeTaxCalculatorEngine(double income, String citizenStatus) {
         this.income = income;
         this.citizenStatus = citizenStatus;
     }

@@ -59,25 +59,33 @@
         </activity>
         <activity android:name=".LoginActivity.Login"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize"
+           >
         </activity>
 
         <activity
             android:name=".LoginActivity.SignUp"
             android:windowSoftInputMode="stateHidden|adjustResize"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity.Login" />
         </activity>
-
-
          <activity android:name=".IncomeTaxHelpList"></activity>
-        <activity android:name=".IncomeTaxHelpweb"></activity>
+        <activity android:name=".IncomeTaxHelpweb">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".IncomeTaxHelpList" />
+        </activity>
 
-        <activity android:name=".Incometax.IncomeTaxHelp" />
-
-        <activity android:name=".AdvancedIncomeTaxCalculator.AdvancedTaxHelp" />
+        <activity android:name=".IncomeTaxCalculator.IncomeTaxHelp">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivityDrawer" />
+        </activity>
+        <activity android:name=".AdvanceIncomeTaxCalculator.AdvancedTaxHelp">
+        </activity>
 
     </application>
 

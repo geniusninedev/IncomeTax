@@ -28,13 +28,7 @@
             android:orientation="vertical"
             android:background="#ffffff">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_Forum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"/>
+
         </FrameLayout>
         <android.support.design.widget.NavigationView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"

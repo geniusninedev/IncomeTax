@@ -1,4 +1,4 @@
-package com.nineinfosys.android.incometax.AdvancedIncomeTaxCalculator;
+package com.nineinfosys.android.incometax.AdvanceIncomeTaxCalculator;
 
 /**
  * Created by Dev on 17-03-2017.

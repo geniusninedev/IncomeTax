@@ -2,6 +2,7 @@ package com.nineinfosys.android.incometax;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -15,6 +16,13 @@ public class IncomeTaxHelpweb extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Income Tax Rules");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         Introwebview = (WebView) findViewById(R.id.help);
         WebSettings IntroWebSettings = Introwebview.getSettings();
         IntroWebSettings.setBuiltInZoomControls(true);

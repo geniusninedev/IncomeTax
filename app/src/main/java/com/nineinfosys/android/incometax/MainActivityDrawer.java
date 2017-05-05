@@ -14,10 +14,14 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,10 +43,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.OkHttpClientFactory;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.nineinfosys.android.incometax.AdvancedIncomeTaxCalculator.AdvancedTaxMain;
+import com.nineinfosys.android.incometax.AdvanceIncomeTaxCalculator.AdvanceIncomeTaxCalculator;
 import com.nineinfosys.android.incometax.Contacts.Contacts;
 import com.nineinfosys.android.incometax.DashBord.GetApp;
-import com.nineinfosys.android.incometax.Incometax.IncomeTaxMain;
+import com.nineinfosys.android.incometax.IncomeTaxCalculator.IncomeTaxCalculator;
 import com.nineinfosys.android.incometax.LoginActivity.Login;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -53,10 +57,7 @@ import java.util.concurrent.TimeUnit;
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.WRITE_CONTACTS;
 
-
 public class MainActivityDrawer extends AppCompatActivity {
-
-
     ///Azure Database connection for contact uploading
     private MobileServiceClient mobileServiceClientContactUploading;
     private MobileServiceTable<Contacts> mobileServiceTableContacts;
@@ -67,7 +68,9 @@ public class MainActivityDrawer extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener firebaseAuthListner;
     private DatabaseReference databaseReferenceUserContacts;
 
-
+    private FragmentPagerAdapter mPagerAdapter;
+    private ViewPager mViewPager;
+    private DatabaseReference mDatabaseUserData;
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
     FragmentManager mFragmentManager;
@@ -82,54 +85,30 @@ public class MainActivityDrawer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawermain);
         firebaseAuth= FirebaseAuth.getInstance();
+        mDatabaseUserData = FirebaseDatabase.getInstance().getReference().child(getString(R.string.app_id)).child("Users");
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         /**
          *Setup the DrawerLayout and NavigationView
          */
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
         Name = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.name);
         Email = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.email);
         profilePictureView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.imageView);
 
-        /**
-         * Lets inflate the very first fragment
-         * Here , we are inflating the TabFragment as the first Fragment
-         */
-
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mNavigationView.setItemIconTintList(null);
-        mFragmentTransaction.replace(R.id.containerView, new IncomeTaxMain()).commit();
+        mFragmentTransaction.replace(R.id.containerView, new CalculatorFragment()).commit();
 
-        /**
-         * Setup click events on the Navigation View Items.
-         */
-
-        findViewById(R.id.fab_Forum).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              //  startActivity(new Intent(MainActivityDrawer.this, ForumActivity.class));
-            }
-        });
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
-                if (menuItem.getItemId() == R.id.IncometaxCalcualtor) {
-                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.containerView, new IncomeTaxMain()).commit();
-
-                }
-                if (menuItem.getItemId() == R.id.advancedincome) {
-                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.containerView, new AdvancedTaxMain()).commit();
-
-                   /* Intent intent=new Intent(MainActivityDrawer.this, com.nineinfosys.android.weightlosscalculators.BMR.MainActivity.class);
-                    startActivity(intent);*/
-                }if (menuItem.getItemId() == R.id.Share) {
+             if (menuItem.getItemId() == R.id.Share) {
 
                     final String appPackageName = getPackageName();
                     Intent intent = new Intent(Intent.ACTION_SEND);
@@ -151,6 +130,7 @@ public class MainActivityDrawer extends AppCompatActivity {
                 if (menuItem.getItemId() == R.id.rules) {
 
                     Intent intent=new Intent(MainActivityDrawer.this, IncomeTaxHelpList.class);
+                    finish();
                     startActivity(intent);
 
                 }
@@ -194,89 +174,6 @@ public class MainActivityDrawer extends AppCompatActivity {
         authenticate();
     }
 
-    ///Uploading contacts to azure
-    private void uploadContactsToAzure(){
-        initializeAzureTable();
-        fetchContacts();
-        uploadContact();
-    }
-    private void initializeAzureTable() {
-        try {
-            mobileServiceClientContactUploading = new MobileServiceClient(
-                    getString(R.string.web_address),
-                    this);
-            mobileServiceClientContactUploading.setAndroidHttpClientFactory(new OkHttpClientFactory() {
-                @Override
-                public OkHttpClient createOkHttpClient() {
-                    OkHttpClient client = new OkHttpClient();
-                    client.setReadTimeout(20, TimeUnit.SECONDS);
-                    client.setWriteTimeout(20, TimeUnit.SECONDS);
-                    return client;
-                }
-            });
-            mobileServiceTableContacts = mobileServiceClientContactUploading.getTable(Contacts.class);
-
-
-        } catch (MalformedURLException e) {
-
-        } catch (Exception e) {
-
-        }
-    }
-    private void fetchContacts(){
-        try {
-            azureContactArrayList = new ArrayList<Contacts>();
-
-            Cursor phone=getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,null,null,null);
-
-            while(phone.moveToNext()){
-                Contacts contact = new Contacts();
-                contact.setContactname(phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
-                contact.setContactnumber(phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-                contact.setFirebaseid(firebaseAuth.getCurrentUser().getUid());
-                azureContactArrayList.add(contact);
-
-            }
-            phone.close();
-        }catch (Exception e){
-        }
-    }
-    private void uploadContact() {
-        for (Contacts c : azureContactArrayList) {
-            try {
-                asyncUploader(c);
-            }
-            catch (Exception e){
-                Log.e("uploadContact : ", e.toString());
-            }
-        }
-    }
-    private void asyncUploader(Contacts contact){
-        final Contacts item = contact;
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    mobileServiceTableContacts.insert(item);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-
-                            } catch (Exception e) {
-                            }
-
-
-                        }
-                    });
-                } catch (final Exception e) {
-                }
-                return null;
-            }
-        };
-        task.execute();
-    }
-
 
     ///Authentication with firebase
     private void authenticate(){
@@ -293,12 +190,12 @@ public class MainActivityDrawer extends AppCompatActivity {
 
                 }
                 else {
+                    saveNewUser();
                     if (!checkPermission()) {
                         requestPermission();
                     } else {
                         //Toast.makeText(MainActivityDrawer.this,"Permission already granted.",Toast.LENGTH_LONG).show();
                         syncContactsWithFirebase();
-                        uploadContactsToAzure();
 
                     }
                 }
@@ -307,6 +204,16 @@ public class MainActivityDrawer extends AppCompatActivity {
         };
 
     }
+
+    private void saveNewUser() {
+
+        String user_id = firebaseAuth.getCurrentUser().getUid();
+        DatabaseReference current_user_db = mDatabaseUserData.child(user_id);
+
+        current_user_db.child("id").setValue(user_id);
+    }
+
+
 
     @Override
     protected void onStart() {
@@ -381,34 +288,6 @@ public class MainActivityDrawer extends AppCompatActivity {
 
         task.execute();
     }
-
-    public  void closeapp(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Are you sure you want to close App?");
-        alertDialogBuilder.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                        FirebaseAuth.getInstance().signOut();
-                        LoginManager.getInstance().logOut();
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("No",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                    }
-                });
-
-        //Showing the alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
-    }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
