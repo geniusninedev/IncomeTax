@@ -185,6 +185,7 @@ public class MainActivityDrawer extends AppCompatActivity {
                     Log.e("ForumMainActivity:", "User was null so directed to Login activity");
                     Intent loginIntent = new Intent(MainActivityDrawer.this, Login.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                     finish();
                     startActivity(loginIntent);
 
